@@ -409,6 +409,12 @@ transactional_splinterdb_lookup(transactional_splinterdb *txn_kvsb,
    return rc;
 }
 
+const splinterdb *
+transactional_splinterdb_get_db(transactional_splinterdb *txn_kvsb)
+{
+  return txn_kvsb->kvsb;
+}
+
 void
 transactional_splinterdb_lookup_result_init(
    transactional_splinterdb *txn_kvsb,   // IN
@@ -428,3 +434,4 @@ transactional_splinterdb_set_isolation_level(
 {
    // TODO: implement isolation_level. Current: serializable
 }
+

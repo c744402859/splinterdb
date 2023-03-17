@@ -110,6 +110,9 @@ transactional_splinterdb_lookup_result_init(
    char                     *buffer      // IN
 );
 
+const splinterdb *
+transactional_splinterdb_get_db(transactional_splinterdb *txn_kvsb);
+
 typedef enum {
    TRANSACTION_ISOLATION_LEVEL_INVALID = 0,
    TRANSACTION_ISOLATION_LEVEL_SERIALIZABLE,

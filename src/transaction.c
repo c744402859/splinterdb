@@ -157,6 +157,8 @@ transactional_splinterdb_commit(transactional_splinterdb *txn_kvsb,
          txn_internal, txn_kvsb->tcfg->kvsb_cfg.data_cfg);
    }
 
+   transaction_table_deinit(&txn_internal->finish_active_transactions);
+
    if (valid) {
       // The new transaction finally becomes visible globally
       write_into_splinterdb(txn_kvsb, txn_internal);
@@ -173,8 +175,6 @@ transactional_splinterdb_commit(transactional_splinterdb *txn_kvsb,
       transaction_gc(txn_kvsb);
 
       platform_mutex_unlock(&txn_kvsb->lock);
-
-      transaction_table_deinit(&txn_internal->finish_active_transactions);
    } else {
       platform_mutex_lock(&txn_kvsb->lock);
 
@@ -185,7 +185,6 @@ transactional_splinterdb_commit(transactional_splinterdb *txn_kvsb,
 
       platform_mutex_unlock(&txn_kvsb->lock);
 
-      transaction_table_deinit(&txn_internal->finish_active_transactions);
       transaction_internal_destroy((transaction_internal **)&txn->internal);
 
       return -1;

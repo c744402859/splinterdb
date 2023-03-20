@@ -267,6 +267,23 @@ CTEST2(misc, test_size_to_str)
    }
 }
 
+CTEST2(misc, test_sizeof_bool)
+{
+   /*
+    * Re-confirming what this compiler implements for the C-standard
+    * _Bool type. We had issues where the use of our internal 'bool'
+    * type in public structs would throw-off field offsets. The fix
+    * was to use _Bool, so that there is no difference in the definition
+    * of this type in our library v/s in other s/w code that links
+    * with splinterdb library.
+    */
+   ASSERT_EQUAL(1, sizeof(_Bool));
+
+   // Our internal usage continues to be this, for historical reasons
+   ASSERT_EQUAL(4, sizeof(bool));
+}
+
+
 /* Helper functions follow all test case methods */
 
 /*
